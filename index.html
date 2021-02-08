@@ -15,10 +15,12 @@
 
         <title>Hello, world!</title>
         <link rel="stylesheet" href="style.css" />
-        
-       <!-- Go to www.addthis.com/dashboard to customize your tools -->
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-601d16af49a41963"></script>
 
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <script
+            type="text/javascript"
+            src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-601d16af49a41963"
+        ></script>
     </head>
 
     <body>
@@ -95,6 +97,7 @@
             class="jsbin"
             src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
         ></script>
+        
         <div class="container file-upload">
             <div class="image-upload-wrap">
                 <input
@@ -112,12 +115,13 @@
             </div>
             <div class="file-upload-content">
                 <img class="file-upload-image" id="face-image" src="#" alt="your image" />
+                <div class="loader">Loading...</div>
                 <p class="result-message"></p>
                 <div id="label-container"></div>
-                
+
                 <!-- Go to www.addthis.com/dashboard to customize your tools -->
                 <div class="addthis_inline_share_toolbox"></div>
-            
+
                 <div class="image-title-wrap">
                     <button type="button" onclick="removeUpload()" class="remove-image">
                         Remove <span class="image-title">Uploaded Image</span>
@@ -127,8 +131,7 @@
         </div>
 
         <div id="webcam-container"></div>
-        
-        
+
         <div id="disqus_thread"></div>
         <script>
             /**
@@ -177,6 +180,9 @@
                     var reader = new FileReader();
 
                     reader.onload = function (e) {
+                        /*여기서 스피너 시작?*/
+                        $('.loader').css('visibility', 'visible');
+                        
                         $('.image-upload-wrap').hide();
 
                         $('.file-upload-image').attr('src', e.target.result);
@@ -186,11 +192,11 @@
                     };
 
                     reader.readAsDataURL(input.files[0]);
-                    init().then(()=>{
-                        console.log("init() function end");
+                    init().then(() => {
+                        console.log('init() function end');
+                        
                         predict();
                     });
-                    
                 } else {
                     //removeUpload();
                 }
@@ -243,24 +249,24 @@
                 const prediction = await model.predict(image, false);
                 prediction.sort((a, b) => parseFloat(b.probability) - parseFloat(a.probability));
                 var resultMessage;
-                switch(prediction[0].className) {
-                    case "Dog":
-                        resultMessage = "강아지상";
+                switch (prediction[0].className) {
+                    case 'Dog':
+                        resultMessage = '강아지상';
                         break;
-                    case "Cat":
-                        resultMessage = "rhdiddl상";
+                    case 'Cat':
+                        resultMessage = '고양이상';
                         break;
-                    case "Rabbit":
-                        resultMessage = "토끼상";
+                    case 'Rabbit':
+                        resultMessage = '토끼상';
                         break;
-                    case "Dinosaur":
-                        resultMessage = "따뜻한 나쁜 남자 공룡상";
+                    case 'Dinosaur':
+                        resultMessage = '따뜻한 나쁜 남자 공룡상';
                         break;
-                    case "Bear":
-                        resultMessage = "곰상";
+                    case 'Bear':
+                        resultMessage = '곰상';
                         break;
                     default:
-                        resultMessage = "알수없음";
+                        resultMessage = '알수없음';
                 }
                 $('.result-message').html(resultMessage);
                 for (let i = 0; i < maxPredictions; i++) {
@@ -268,8 +274,29 @@
                         prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
                     labelContainer.childNodes[i].innerHTML = classPrediction;
                 }
+                /* 여기서 스피너 없애기? */
+                $('.loader').css('visibility', 'hidden');
+                
             }
         </script>
+        <div class="ad-banner">
+            <ins
+                class="kakao_ad_area"
+                style="display: none;"
+                data-ad-unit="DAN-jsgFDESOW0vuVvhR"
+                data-ad-width="320"
+                data-ad-height="100"
+            ></ins>
+            </div>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
+        <footer class="footer pt-5 container d-flex justify-content-center">
+            <div>
+                <p>
+                    &copy; 펄프매거진 Pulp Magazine 2021. All Rights Reserved.
+                </p>
+            </div>
+        </footer>
     </body>
 
     <!--
